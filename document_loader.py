@@ -1,3 +1,6 @@
+import pandas as pd
+import logging
+
 from langchain_community.document_loaders import (
     DirectoryLoader,
     PyPDFLoader,
@@ -7,13 +10,16 @@ import os
 from typing import List
 from langchain_core.documents import Document
 from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-TEXT_SPLITTER = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+from process_documents import extract_elements_from_pdf
+import os
+
+TEXT_SPLITTER = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
 
 
-def load_documents_into_database(model_name: str, documents_path: str) -> Chroma:
+def load_documents_into_database(model_name, documents_path, document_type) -> Chroma:
     """
     Loads documents from the specified directory into the Chroma database
     after splitting the text into chunks.
@@ -22,15 +28,55 @@ def load_documents_into_database(model_name: str, documents_path: str) -> Chroma
         Chroma: The Chroma database with loaded documents.
     """
 
-    print("Loading documents")
-    raw_documents = load_documents(documents_path)
-    documents = TEXT_SPLITTER.split_documents(raw_documents)
+    #persist_directory = f"./chroma_db/chroma_db_{documents_path.replace("\\", "_")}"
+    persist_directory = f"./chroma_db/chroma_db_{documents_path}"
 
-    print("Creating embeddings and loading documents into Chroma")
-    db = Chroma.from_documents(
+    # Vérifier si une base de données persistante existe déjà
+    if os.path.exists(persist_directory):
+        print("Chargement de la base de données Chroma existante")
+        db = Chroma(
+            persist_directory=persist_directory,
+            embedding_function=OllamaEmbeddings(model=model_name)
+        )
+    else:
+        print(f"Création d'une nouvelle base de données Chroma dans {persist_directory}")
+
+        # List all PDF files
+        if document_type == 'Autres documents':
+            
+            print("Chargement classique de docuemnts")
+            raw_documents = load_documents(documents_path)
+            documents = TEXT_SPLITTER.split_documents(raw_documents)
+
+        else:
+            print("Extraction de PDFs")            
+            documents = extract_elements_from_pdf(documents_path)
+
+        print("Chargement des documents dans la base ChromaDB")
+
+        try:
+            db = Chroma.from_documents(
+            documents,
+            OllamaEmbeddings(model=model_name),
+            persist_directory=persist_directory
+            )
+            
+            logging.info("Documents loaded successfully")
+            print("Documents loaded successfully")
+
+        except Exception as e:
+            logging.error(f"Error loading documents: {e}")
+            print(f"Error loading documents: {e}")
+
+        db = Chroma.from_documents(
         documents,
         OllamaEmbeddings(model=model_name),
-    )
+        persist_directory=persist_directory
+        )
+
+        db.persist()
+    
+
     return db
 
 
@@ -55,11 +101,13 @@ def load_documents(path: str) -> List[Document]:
     if not os.path.exists(path):
         raise FileNotFoundError(f"The specified path does not exist: {path}")
 
+    path = os.path.join("sources", path)
+    
     loaders = {
         ".pdf": DirectoryLoader(
             path,
             glob="**/*.pdf",
-            loader_cls=PyPDFLoader,
+#            loader_cls=loader,
             show_progress=True,
             use_multithreading=True,
         ),

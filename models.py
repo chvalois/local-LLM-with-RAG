@@ -5,24 +5,24 @@ from tqdm import tqdm
 def __pull_model(name: str) -> None:
     current_digest, bars = "", {}
     for progress in ollama.pull(name, stream=True):
-        digest = progress.get("digest", "")
-        if digest != current_digest and current_digest in bars:
-            bars[current_digest].close()
+            
+            digest = progress.get("digest", "")
+            if digest != current_digest and current_digest in bars:
+                bars[current_digest].close()
 
-        if not digest:
-            print(progress.get("status"))
-            continue
+            if not digest:
+                print(progress.get("status"))
+                continue
 
-        if digest not in bars and (total := progress.get("total")):
-            bars[digest] = tqdm(
-                total=total, desc=f"pulling {digest[7:19]}", unit="B", unit_scale=True
-            )
+            if digest not in bars and (total := progress.get("total")):
+                bars[digest] = tqdm(
+                    total=total, desc=f"pulling {digest[7:19]}", unit="B", unit_scale=True
+                )
 
-        if completed := progress.get("completed"):
-            bars[digest].update(completed - bars[digest].n)
+            if completed := progress.get("completed"):
+                bars[digest].update(completed - bars[digest].n)
 
-        current_digest = digest
-
+            current_digest = digest
 
 def __is_model_available_locally(model_name: str) -> bool:
     try:
@@ -39,7 +39,14 @@ def get_list_of_models() -> list[str]:
     Returns:
         list[str]: A list of model names available in the Ollama repository.
     """
-    return [model["name"] for model in ollama.list()["models"]]
+    list_of_models = sorted([model["name"] for model in ollama.list()["models"]])
+
+    try:
+        list_of_models.remove("nomic-embed-text:latest")
+    except:
+        pass
+
+    return list_of_models
 
 
 def check_if_model_is_available(model_name: str) -> None:

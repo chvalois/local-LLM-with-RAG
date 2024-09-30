@@ -1,8 +1,28 @@
 chromadb==0.5.0
-langchain==0.2.1
-langchain-community==0.2.1
 pypdf==4.2.0
-ollama==0.2.0
+ollama==0.3.3
 tqdm==4.66.4
 streamlit==1.35.0
 watchdog==4.0.1
+colorama==0.4.6
+tiktoken==0.7.0
+pdfplumber==0.11.4
+
+langgraph==0.2.16
+langchain==0.2.15
+langchain-community==0.2.5
+langchain-core==0.2.37
+langchain-text-splitters==0.2.1
+langchainhub==0.1.20
+langchain_mistralai==0.1.12
+
+langchain-openai==0.1.23
+
+# unstructured==0.14.9
+# unstructured-client==0.23.8
+# unstructured-inference==0.7.36
+# unstructured.pytesseract==0.3.12
+
+# Exclude badly numbered Python2 version of nvidia-ml-py
+nvidia-ml-py>=12.535,<300
+pynvx==1.0.0 ; sys_platform == "darwin"
