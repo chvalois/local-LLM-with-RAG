@@ -17,7 +17,7 @@ from process_documents import extract_elements_from_pdf
 import os
 
 TEXT_SPLITTER = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
-
+ollama_service_url = "http://ollama_service:11434"  # Use the service name in Docker
 
 def load_documents_into_database(model_name, documents_path, document_type) -> Chroma:
     """
@@ -29,14 +29,14 @@ def load_documents_into_database(model_name, documents_path, document_type) -> C
     """
 
     #persist_directory = f"./chroma_db/chroma_db_{documents_path.replace("\\", "_")}"
-    persist_directory = f"./chroma_db/chroma_db_{documents_path}"
+    persist_directory = f"./chroma_db/{documents_path}"
 
     # Vérifier si une base de données persistante existe déjà
     if os.path.exists(persist_directory):
         print("Chargement de la base de données Chroma existante")
         db = Chroma(
             persist_directory=persist_directory,
-            embedding_function=OllamaEmbeddings(model=model_name)
+            embedding_function=OllamaEmbeddings(model=model_name, base_url=ollama_service_url)
         )
     else:
         print(f"Création d'une nouvelle base de données Chroma dans {persist_directory}")
@@ -54,29 +54,28 @@ def load_documents_into_database(model_name, documents_path, document_type) -> C
 
         print("Chargement des documents dans la base ChromaDB")
 
-        try:
-            db = Chroma.from_documents(
-            documents,
-            OllamaEmbeddings(model=model_name),
-            persist_directory=persist_directory
-            )
+        # try:
+        #     db = Chroma.from_documents(
+        #     documents,
+        #     OllamaEmbeddings(model=model_name, base_url=ollama_service_url),
+        #     persist_directory=persist_directory
+        #     )
             
-            logging.info("Documents loaded successfully")
-            print("Documents loaded successfully")
+        #     logging.info("Documents loaded successfully")
+        #     print("Documents loaded successfully")
 
-        except Exception as e:
-            logging.error(f"Error loading documents: {e}")
-            print(f"Error loading documents: {e}")
+        # except Exception as e:
+        #     logging.error(f"Error loading documents: {e}")
+        #     print(f"Error loading documents: {e}")
 
         db = Chroma.from_documents(
         documents,
-        OllamaEmbeddings(model=model_name),
+        OllamaEmbeddings(model=model_name, base_url=ollama_service_url),
         persist_directory=persist_directory
         )
 
         db.persist()
     
-
     return db
 
 

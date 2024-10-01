@@ -126,6 +126,7 @@ def getStreamingChain(question: str, memory, llm, db, language):
         ANSWER_PROMPT = ChatPromptTemplate.from_template(answer_FR)
 
     retriever = db.as_retriever(search_kwargs={"k": 10})
+    
     loaded_memory = RunnablePassthrough.assign(
         chat_history=RunnableLambda(
             lambda x: "\n".join(

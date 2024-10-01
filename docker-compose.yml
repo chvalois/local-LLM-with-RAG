@@ -4,13 +4,21 @@ services:
     image: ollama/ollama:latest  # Replace with the correct Ollama image or build if needed
     container_name: ollama_service
     ports:
-      - "11435:11434"  # Ollama will serve on this port
+      - "11434:11434"  # Ollama will serve on this port
     env_file: ".env"
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
       - OLLAMA_API_URL=ollama_service:11434
+      - OLLAMA_HOST=ollama_service:11434
+      - OLLAMA_ORIGINS=http://ollama_service:11434
+    volumes:
+        # - ./ollama/ollama:/root/.ollama
+        - ./entrypoint.sh:/entrypoint.sh
     runtime: nvidia
+    pull_policy: always
+    tty: true
+    restart: always
     deploy:
       resources:
         reservations:
@@ -20,8 +28,9 @@ services:
               capabilities: [gpu]
     networks:
       - chatbot_network  # Same network as the chatbot for communication
-    entrypoint: |
-      bash -c "ollama serve"
+    # entrypoint: |
+    #   bash -c "ollama run llama3.1 && ollama serve"
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
 
   chatbot:
     image: myllm:latest
@@ -32,8 +41,8 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
-      - OLLAMA_HOST=0.0.0.0:11434
-      - OLLAMA_ORIGINS=http://0.0.0.0:11434
+      - OLLAMA_HOST=ollama_service:11434
+      - OLLAMA_ORIGINS=http://ollama_service:11434
     runtime: nvidia
     deploy:
       resources:
@@ -51,7 +60,7 @@ services:
     networks:
       - chatbot_network  # Assign both containers to the same network
     entrypoint: |
-      /bin/bash -c "until curl -s http://ollama_service:11435 > /dev/null; do echo 'Waiting for Ollama...'; sleep 3; done; streamlit run ui.py"
+      /bin/bash -c "until curl -s http://ollama_service:11434 > /dev/null; do echo 'Waiting for Ollama...'; sleep 3; done; streamlit run ui.py"
 
 networks:
   chatbot_network:

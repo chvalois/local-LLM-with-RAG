@@ -13,11 +13,13 @@ from llm import getStreamingChain, get_reco_transcript
 from C_rag_fusion import query as rag_fusion
 from E_graph import query as graph
 
+import chromadb.api.client
 
 
 load_dotenv()
 EMBEDDING_MODEL = ""
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
+# chromadb.api.client.SharedSystemClient.clear_system_cache()
 
 st.title("🗄️ Votre LLM open-source en local")
 
@@ -57,7 +59,7 @@ selected_model = st.sidebar.selectbox(
 
 if st.session_state.get("ollama_model") != selected_model:
     st.session_state["ollama_model"] = selected_model
-    st.session_state["llm"] = Ollama(model=selected_model)
+    st.session_state["llm"] = Ollama(model=selected_model, base_url="http://ollama_service:11434")
 
 # Sélectionner la langue des prompts
 language = st.sidebar.selectbox("Sélectionner la langue des prompts : ", ['EN', 'FR'])
