@@ -9,7 +9,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate
 import bs4
 
-from document_loader import load_documents_into_database
+from functions.document_loader import load_documents_into_database
 from dotenv import load_dotenv
 import os
 

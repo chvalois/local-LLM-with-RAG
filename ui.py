@@ -5,21 +5,16 @@ from dotenv import load_dotenv
 import logging
 
 from langchain_community.llms import Ollama
-from langchain_community.document_loaders import WebBaseLoader
-from document_loader import load_documents_into_database
+from functions.document_loader import load_documents_into_database
 from models import get_list_of_models
 
-from llm import getStreamingChain, get_reco_transcript
-from C_rag_fusion import query as rag_fusion
-from E_graph import query as graph
-
-import chromadb.api.client
-
+from functions.llm import getStreamingChain, get_reco_transcript
+from functions.rag_fusion import query as rag_fusion
+from functions.graph import query as graph
 
 load_dotenv()
-EMBEDDING_MODEL = ""
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
-# chromadb.api.client.SharedSystemClient.clear_system_cache()
+
 
 st.title("🗄️ Votre LLM open-source en local")
 
@@ -123,9 +118,6 @@ if prompt := st.chat_input("Question"):
         response = ""
 
         if answer_type == "Basique":
-
-            # stream = getStreamingChain(prompt, st.session_state.messages, st.session_state["llm"], st.session_state["db"], language)
-            # response = st.write_stream(stream)
 
             stream = getStreamingChain(prompt, st.session_state.messages, st.session_state["llm"], st.session_state["db"], language)
             response = st.write_stream(stream)

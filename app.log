@@ -1,14 +1,10 @@
-2024-10-01 16:17:15,210 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
-2024-10-01 16:51:50,627 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
-2024-10-01 16:51:55,147 - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-01 16:51:55,236 - INFO - Collection langchain is not created.
-2024-10-01 16:51:55,248 - INFO - src_simracing | Temps nécessaire pour indexer les documents : 0.0 secondes
-2024-10-01 16:52:27,424 - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-01 16:53:06,880 - INFO - Collection langchain is not created.
-2024-10-01 16:53:06,885 - INFO - src_assemblee_nationale | Temps nécessaire pour indexer les documents : 0.0 secondes
-2024-10-01 16:53:10,133 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
-2024-10-01 16:53:11,492 - INFO - Collection langchain is not created.
-2024-10-01 16:53:11,494 - INFO - src_assemblee_nationale | Temps nécessaire pour indexer les documents : 0.0 secondes
-2024-10-01 16:58:35,859 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
-2024-10-01 18:14:21,784 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
-2024-10-01 18:14:43,804 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
+2024-10-09 09:39:47,294 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
+2024-10-09 09:40:25,115 - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-09 09:40:25,206 - INFO - Collection langchain is not created.
+2024-10-09 09:40:25,217 - INFO - src_small_pdf | Temps nécessaire pour indexer les documents : 1.0 secondes
+2024-10-09 09:41:06,171 - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-09 09:41:06,191 - INFO - Collection langchain is not created.
+2024-10-09 09:41:06,199 - INFO - src_hiring | Temps nécessaire pour indexer les documents : 0.0 secondes
+2024-10-09 09:41:18,760 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
+2024-10-09 09:41:22,815 - INFO - Collection langchain is not created.
+2024-10-09 09:41:22,818 - INFO - src_hiring | Temps nécessaire pour indexer les documents : 0.0 secondes

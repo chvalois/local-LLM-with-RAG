@@ -13,8 +13,7 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-from process_documents import extract_elements_from_pdf
-import os
+from functions.process_documents import extract_elements_from_pdf
 
 TEXT_SPLITTER = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
 ollama_service_url = "http://ollama_service:11434"  # Use the service name in Docker

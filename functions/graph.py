@@ -4,7 +4,7 @@ from langgraph.graph import END, StateGraph
 from pprint import pprint
 from typing import List
 from colorama import Fore
-from D_corrective_rag import assess_retrieved_docs, rewrite_query_user, search_web, generate_answer
+from functions.corrective_rag import assess_retrieved_docs, rewrite_query_user, search_web, generate_answer
 
 # https://github.com/langchain-ai/langgraph/tree/main?ref=blog.langchain.dev
 class GraphState(TypedDict):

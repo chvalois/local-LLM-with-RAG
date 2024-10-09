@@ -189,7 +189,7 @@ Your answer should only limit to the following list:
 # Prompt avec question à poser spécialisée data
 template_hr_2_EN = """
 You are an expert HR assistant in data industry.
-Based on the interview transcript provided, give one question the reeruiter should ask the candidate to better evaluate if the candidate is a good fit.
+Based on the interview transcript provided, think of 5 very sharp questions the recruiter should ask the candidate to better evaluate if the candidate is a good fit.
 
 Latest Interview Transcript:
 {context}
