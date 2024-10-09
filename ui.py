@@ -6,7 +6,7 @@ import logging
 
 from langchain_community.llms import Ollama
 from functions.document_loader import load_documents_into_database
-from models import get_list_of_models
+from functions.models import get_list_of_models
 
 from functions.llm import getStreamingChain, get_reco_transcript
 from functions.rag_fusion import query as rag_fusion
