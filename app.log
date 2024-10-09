@@ -8,3 +8,6 @@
 2024-10-09 09:41:18,760 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
 2024-10-09 09:41:22,815 - INFO - Collection langchain is not created.
 2024-10-09 09:41:22,818 - INFO - src_hiring | Temps nécessaire pour indexer les documents : 0.0 secondes
+2024-10-09 10:17:04,794 - INFO - HTTP Request: GET http://ollama_service:11434/api/tags "HTTP/1.1 200 OK"
+2024-10-09 10:17:08,884 - INFO - Collection langchain is not created.
+2024-10-09 10:17:08,887 - INFO - src_small_pdf | Temps nécessaire pour indexer les documents : 0.0 secondes
